@@ -17,6 +17,24 @@ const insertUserinfo = async (req, res, next) => {
   }
 };
 
+// logedinuser
+
+const logedinuser = async(req,res,next)=>{
+try {
+  
+  const result = await userServices.logedinuser(req.body)
+  res.status(200).json({
+    success:true,
+    message:"user login successfully",
+    data:result
+  })
+} catch (error) {
+  next(error)
+  
+}
+
+}
+
 // getSingle Userinfo 
 const getSingleUser = async (req, res, next) => {
   try {
@@ -86,7 +104,8 @@ const userControler = {
   getSingleUser,
   updateSingleUser,
   deleteSignleUser,
-  getAllUser
+  getAllUser,
+  logedinuser
 };
 
 export default userControler;

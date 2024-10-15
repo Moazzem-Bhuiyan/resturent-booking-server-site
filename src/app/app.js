@@ -1,5 +1,6 @@
 import express from "express";
 import userRoutes from "./module/user/user.route.js";
+import itemRoutes from "./module/Items/item.route.js";
 
 export const app = express();
 
@@ -18,6 +19,8 @@ app.use(express.json())
 app.use(errorHandeler);
 
 app.use("/api",userRoutes);
+
+app.use("/api",itemRoutes)
 
 app.get("/", (req, res) => {
   res.send("Server is ruuning ");

@@ -1,13 +1,53 @@
 import User from "./user.model.js";
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 // insertUser info
 
 const insertUserinfo = async (data) => {
-  const result = await User.create(data);
+
+  const hashData = {...data}
+
+  const hashPassword = await bcrypt.hash(hashData.password,12)
+
+   hashData.password = hashPassword
+
+
+  const result = await User.create(hashData);
 
   return result;
 };
 
+// loginuser
+
+const logedinuser = async(data)=>{
+
+  const isUserExist = await User.findOne({email:data.email})
+ if(!isUserExist){
+  throw new Error ("usernot Exist")
+ }
+
+ const ispasswordMatched  = await bcrypt.compare(data?.password,isUserExist.password)
+if(!ispasswordMatched){
+  throw new Error (" your password is wrong")
+}
+const userObj = {
+
+  userId : isUserExist._id,
+  email : isUserExist.email,
+  role : isUserExist.role
+
+}
+
+const token = jwt.sign(userObj,"resturentMoazzem015",{expiresIn:"2d"})
+
+return {
+  data : isUserExist,
+  token:token
+}
+
+
+}
 
 // getSingle Userinfo 
 
@@ -51,7 +91,8 @@ const userServices = {
   getSingleUser,
   updateSingleUser,
   deleteSignleUser,
-  getAllUser
+  getAllUser,
+  logedinuser
   
   
 };
