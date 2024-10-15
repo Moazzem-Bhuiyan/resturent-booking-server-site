@@ -39,7 +39,7 @@ const userObj = {
 
 }
 
-const token = jwt.sign(userObj,"resturentMoazzem05ees",{expiresIn:"2d"})
+const token = jwt.sign(userObj,"resturentMoazzem05",{expiresIn:"2d"})
 
 return {
   data : isUserExist,
